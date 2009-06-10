@@ -33,4 +33,4 @@ this will make the tags in the romeve tag cloud red
 
 == Screenshots ==
 
-1. skmultitag.png
+skmultitag.png
