@@ -4,7 +4,7 @@ Plugin Name: Sk Multi Tag
 Plugin URI: http://www.skipstorm.org/
 Description: This plugin adds a tag cloud widget where you can select multiple tags at once. You can customize the look of the wordcloud by adding a css for the divs with id skwr_removetags and skwr_addtags.
 Author: Skipstorm
-Version: 0.6
+Version: 0.6.1
 Author URI: http://www.skipstorm.org/
 */
 
@@ -103,7 +103,7 @@ function skmultitag_widget($args) {
 					$selectedTagsDel = implode('+', $arrayForPars);
 					$selTag = get_tag_link( $tag->term_id );
 					$selTag = eregi_replace("[/]*$", '', $selTag);
-					$selTag = eregi_replace($tag->slug, '', $selTag);
+					$selTag = eregi_replace("$tag->slug$", '', $selTag);
 					$delTags[ $key ] = clone $tag;
 					$delTags[ $key ]->link = $selTag.$selectedTagsDel;
 					$delTags[ $key ]->id = $tag->term_id;
