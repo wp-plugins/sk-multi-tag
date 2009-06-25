@@ -4,7 +4,7 @@ Plugin Name: Sk Multi Tag
 Plugin URI: http://www.skipstorm.org/
 Description: This plugin adds a tag cloud widget where you can select multiple tags at once. You can customize the look of the wordcloud by adding a css for the divs with id skwr_removetags and skwr_addtags.
 Author: Skipstorm
-Version: 0.1
+Version: 0.6
 Author URI: http://www.skipstorm.org/
 */
 
@@ -36,7 +36,7 @@ function skmultitag_widget($args) {
 	echo $before_widget;
     echo $before_title.$options['wpwr_title'].$after_title;
         
-    global $wp_query;
+    global $wp_query,$wpdb;
     
     @$selectedTags = $wp_query->query_vars['tag'];
         
@@ -60,6 +60,23 @@ function skmultitag_widget($args) {
 		}
 	} else {
 		$selectedTagsArray = explode(' ', $selectedTags);
+        $tPosts = get_posts(array('tag' => $selectedTags));
+        foreach($tPosts as $tPost){
+            $tPostIds[] = $tPost->ID;
+        }
+        
+        if(isset($tPostIds) && count($tPostIds) > 0){
+            $sql = "SELECT t.slug FROM $wpdb->posts p INNER JOIN $wpdb->term_relationships tr ";
+            $sql .= " ON (p.ID = tr.object_id) INNER JOIN $wpdb->term_taxonomy tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id) ";
+            $sql .= " INNER JOIN $wpdb->terms t ON (tt.term_id = t.term_id)";
+            $sql .= " WHERE tt.taxonomy = 'post_tag' AND p.ID IN ('" . implode("', '", $tPostIds) . "')";
+
+            $sql .= " GROUP BY t.slug";
+            $good_slugs = $wpdb->get_col($sql);
+        } else {
+            $good_slugs = array();
+        }
+        
 		$tags = get_tags( array_merge( $args, array( 'orderby' => 'count', 'order' => 'DESC' ) ) ); 
 		$selectedTags = ereg_replace(' ', '+', $selectedTags);
 
@@ -104,7 +121,7 @@ function skmultitag_widget($args) {
 			// Add tags
 			foreach ( $tags as $key => $tag ) {
 
-				if(!in_array($tag->slug, $selectedTagsArray)){
+				if(in_array($tag->slug, $good_slugs) && !in_array($tag->slug, $selectedTagsArray)){
 					$link = get_tag_link( $tag->term_id );
 					
 					$link = eregi_replace("[/]*$", '', $link);
@@ -114,9 +131,13 @@ function skmultitag_widget($args) {
 				} else {
 					unset($tags[ $key ]);
 					}
+
 			}
 			echo '<div id="skwr_addtags">'.$options['wpwr_add_title'];
-			echo wp_generate_tag_cloud($tags, $defaults);
+            if(count($tags) > 0)
+                echo wp_generate_tag_cloud($tags, $defaults);
+            else
+                echo $options['wpwr_mnt_title'];
 			echo '</div>';
 		}
 	}
@@ -154,6 +175,10 @@ function control(){
 	   $options['wpwr_rem_title'] = $_POST['wpwr_rem_title'];
 	   update_option('Sk_MultiTag', $options);
 	   }
+   if(isset($_POST['wpwr_mnt_title'])){
+	   $options['wpwr_mnt_title'] = $_POST['wpwr_mnt_title'];
+	   update_option('Sk_MultiTag', $options);
+	   }
    if(isset($_POST['wpwr_footer'])){
 	   $options['wpwr_footer'] = $_POST['wpwr_footer'];
 	   update_option('Sk_MultiTag', $options);
@@ -163,6 +188,7 @@ function control(){
    echo '<p>Widget title:</p><p><input type="text" name="wpwr_title" value="'.$options['wpwr_title'].'" /></p>';
    echo '<p>Add title:</p><p><input type="text" name="wpwr_add_title" value="'.$options['wpwr_add_title'].'" /></p>';
    echo '<p>Remove title:</p><p><input type="text" name="wpwr_rem_title" value="'.$options['wpwr_rem_title'].'" /></p>';
+   echo '<p>No more tags:</p><p><input type="text" name="wpwr_mnt_title" value="'.$options['wpwr_mnt_title'].'" /></p>';
    echo '<p>Footer:</p><p><textarea name="wpwr_footer">'.stripslashes($options['wpwr_footer']).'</textarea></p>';
 }
 
@@ -170,6 +196,7 @@ function getDefaultValues(){
 	$options = array('wpwr_title' => '<h1>WordRain</h1>',
                 'wpwr_add_title' => '<h3>Add Tag</h3>',
 				'wpwr_rem_title' => '<h3>Remove Tag</h3>',
+				'wpwr_mnt_title' => '<h4>No more tags, remove some.</h4>',
 				'wpwr_footer' => '<span style="font-size:8px;">by<a href="http://www.skipstorm.org" style="font-size:8px;">Skipstorm</a></span>');
 	update_option('Sk_MultiTag', $options);
 	return $options;

@@ -11,6 +11,10 @@ This plugin adds a tag cloud widget where you can select multiple tags at once.
 
 This plugin adds a tag cloud widget where you can select multiple tags at once.
 
+= Update =
+This version removes the tags that will lead to no articles in the add tag list.
+You might want to install wp-cache to avoid performance issues.
+
 
 == Installation ==
 
