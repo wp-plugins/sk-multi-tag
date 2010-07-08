@@ -1,0 +1,21 @@
+.templateAdminWrap h4{margin:1.33em 0 .5em;}
+
+/* Tabella lista categorie*/
+    .categoryList{border-collapse:collapse;}
+    .categoryList th{font-weight:bold; border:1px #000 solid; background:#fff;padding:4px 4px;}
+    .categoryList tr td{border:1px #000 solid; padding:2px 4px;}
+    .categoryList tr.even td{background:#eaeaea;}
+    .categoryList tr.odd td{background:#dfdfdf;}
+
+.templateAdminWrap fieldset{}
+
+.templateAdminWrap fieldset{margin-top:15px; border:2px #000 solid; padding:15px;background:#fff;}
+.templateAdminWrap fieldset p{clear:both;}
+.templateAdminWrap fieldset legend{padding:3px 10px; font-weight:bold;border:2px #000 solid; cursor:pointer;background:#fff;}
+.templateAdminWrap fieldset p label{display:block; float:left; width:49%;}
+.templateAdminWrap fieldset p input{display:block; float:left; width:50%; border:1px #000 solid;}
+.templateAdminWrap fieldset p textarea{display:block; float:left; width:50%; border:1px #000 solid;}
+.templateAdminWrap fieldset p select{display:block; float:left; width:50%; border:1px #000 solid;}
+.templateAdminWrap fieldset p .button{width:100px; margin:20px;}
+
+.templateAdminWrap fieldset sub{padding:0 0 0 50%; display:block;}

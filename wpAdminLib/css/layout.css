@@ -1,0 +1,53 @@
+body{text-align:center; background:#000; }
+
+.wrap{text-align:left;}
+.wrapper{width:100%; background:#0055b7 url(../images/bg.png) repeat-x scroll center bottom;}
+
+/**
+    Intestazione
+*/
+    #topBanner{background:#fff;}
+    #header{background:url(../images/header.png) no-repeat left top; height:84px; overflow:hidden;}
+
+    /* Top Menu */
+    .topMenu ul{font-size:14px;}
+    .topMenu ul li{display:inline;}
+    .topMenu ul li a{display:block; float:left; height:29px;line-height:20px;cursor:pointer;}
+    .topMenu ul li.current_page_item a, .topMenu ul li.current_page_item a:hover, .topMenu ul li.current-menu-item a, .topMenu ul li.current-menu-item a:hover{background:url(../images/topmenuarrow.gif) no-repeat bottom center;}
+    .topMenu ul li a:hover{background:url(../images/topmenuarrow2.gif) no-repeat bottom center;}
+    .topMenu ul li a span{display:block; float:left; padding:5px 8px 0 10px;background:url(../images/topmenuseparator.gif) no-repeat left bottom;}
+    .topMenu ul li:first-child a span{background-image:none;}
+    .topMenu ul li a span{background-image:expression(this.parentNode.parentNode.previousSibling==null?'none':'../images/topmenuseparator.gif');}
+
+    /* Ricerca */
+    .searchInput{background:url(../images/search.png) no-repeat center center; width:219px;}
+    .searchInput input{background:transparent; border:none; padding:6px 10px; color:#003397;}
+    .searchInput input.srcsbmt{background:transparent; border:none; padding:6px 20px;cursor:pointer;}
+
+/**
+    Corpo della pagina
+*/
+    .content{background:#fff url(../images/grad1.png) repeat-x center top; padding:10px 0;}
+    #tabs div.ui-tabs-panel{background:#fff url(../images/grad1.png) repeat-x center -1px;}
+
+    .post, .page{margin-right:15px;}
+
+/**
+    Barra laterale
+*/
+    .sidebar{font-size:12px;}
+/**
+    Footer
+*/
+    #ft{font-size:10px; color:#ddd; background:url(../images/footer.png) no-repeat left top; height:84px; overflow:hidden;}
+    #ft p{margin:10px 0 0 100px;}
+    #ft a{text-decoration:none; color:#acf;}
+    #ft a:hover{text-decoration:underline;}
+
+
+/**
+    UI Rewrites
+*/
+    .ui-widget-header{background:none;}
+    #tabs{background:url(start/images/ui-bg_gloss-wave_75_2191c0_500x100.png) 50% top repeat-x;}
+    .ui-tabs .ui-tabs-nav li a {padding:0.1em 0.6em;}
