@@ -4,7 +4,7 @@ Plugin Name: Sk Multi Tag
 Plugin URI: http://www.skipstorm.org/2010/07/sk-multi-tag-v-1-0-tag-multipli-su-wordpress
 Description: This plugin adds a tag cloud widget where you can select multiple tags at once. Check the plugin webpage for customization.
 Author: Skipstorm
-Version: 1.0
+Version: 1.0.1
 Author URI: http://www.skipstorm.org/
 */
 
@@ -84,8 +84,8 @@ class SKMultiTag{
             '<p><label>Smallest tag size</label><input name="new[smallest]" type="text" value="8" /></p>'.
             '<p><label>Largest tag size</label><input name="new[largest]" type="text" value="26" /></p>'.
             '<p><label>Size unit</label>'.SKMTHtmlHelper::selectSimple(array('px' => 'Pixel','pt' => 'Point','em' => 'EM' ), 'new[unit]').'</p>'.
-            '<p><label>Order tag by</label>'.SKMTHtmlHelper::selectSimple(array('RAND' => 'Random','none' => 'Tag id','name' => 'Name','count' => 'Post count' ), 'new[orderby]').'</p>'.
-            '<p><label>Order</label>'.SKMTHtmlHelper::selectSimple(array('ASC' => 'Ascendant','DESC' => 'Descendant'), 'new[order]').'</p>'.
+            '<p><label>Order tag by</label>'.SKMTHtmlHelper::selectSimple(array('none' => 'Tag id','name' => 'Name','count' => 'Post count' ), 'new[orderby]').'</p>'.
+            '<p><label>Order</label>'.SKMTHtmlHelper::selectSimple(array('RAND' => 'Random','ASC' => 'Ascendant','DESC' => 'Descendant'), 'new[order]').'</p>'.
             '<p><label>Exclude tags (ids comma delimited)</label><input name="new[exclude]" type="text" /></p>'.
             '<p><label>Use only (ids comma delimited, overwrites "exclude")</label><input name="new[include]" type="text" /></p>'.
             '<p><label>Maximum number of tags to display</label><input name="new[number]" type="text" /></p>'.
@@ -200,7 +200,7 @@ class SKMultiTag{
     }
 
     /**
-     * In modo da avere i dati disponibili in ogni posizione del template Ã¨ meglio se questa parte
+     * In modo da avere i dati disponibili in ogni posizione del template è meglio se questa parte
      * viene fatta automaticamente e il modulo richiede semplicemente le liste add e remove
      * 
      * @global <type> $wp_query
@@ -242,7 +242,7 @@ class SKMultiTag{
 				$delTags = array();
 
 
-                                 //* Per ogni tag, se Ã¨ presente nella lista dei tag selezionati
+                                 //* Per ogni tag, se è presente nella lista dei tag selezionati
                                  //* viene inserito nella lista di rimozione
 				foreach ( $tags as $key => $tag ) {
 					foreach($selectedTagsArray as $k => $v){

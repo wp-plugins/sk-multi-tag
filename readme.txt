@@ -15,18 +15,26 @@ ATTENTION! This is a totally different plugin so if you're updating from the old
 Visit the plugin homepage to download the old version if you want to downgrade.
 
 = Update =
+
+1.0.1
+
+*	Bug fix about random order
+
 1.0
-* Now is a multi instance widget
-* Supports modules
-* Added wp cumulus module (flash file courtesy of weefselkweekje and LukeMorton)
-* Any tag size has it's own css class allowing a better customization
-* Added several options
+
+*	Now is a multi instance widget
+*	Supports modules
+*	Added wp cumulus module (flash file courtesy of weefselkweekje and LukeMorton)
+*	Any tag size has it's own css class allowing a better customization
+*	Added several options
 
 0.6.2
-Removed bug causing some tags not to be displayed, thanks to Felipe from turismocoquimbo.com
+
+*	Removed bug causing some tags not to be displayed, thanks to Felipe from turismocoquimbo.com
 
 0.6.1
-This version removes the tags that will lead to no articles in the add tag list.
+
+*	This version removes the tags that will lead to no articles in the add tag list.
 You might want to install wp-cache to avoid performance issues.
 
 = System requirements =
