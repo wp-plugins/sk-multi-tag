@@ -11,17 +11,15 @@ This plugin adds a tag cloud widget where you can select multiple tags at once.
 
 This plugin adds a tag cloud widget where you can select multiple tags at once.
 
-ATTENTION! This is a totally different plugin so if you're updating from the old version you'll have to configure it again.
+ATTENTION! This is a totally different plugin so if you're updating from the version 0.6.x you'll have to configure it again.
 Visit the plugin homepage to download the old version if you want to downgrade.
 
 = Update =
 
 1.0.1
-
 *	Bug fix about random order
 
 1.0
-
 *	Now is a multi instance widget
 *	Supports modules
 *	Added wp cumulus module (flash file courtesy of weefselkweekje and LukeMorton)
@@ -29,11 +27,9 @@ Visit the plugin homepage to download the old version if you want to downgrade.
 *	Added several options
 
 0.6.2
-
 *	Removed bug causing some tags not to be displayed, thanks to Felipe from turismocoquimbo.com
 
 0.6.1
-
 *	This version removes the tags that will lead to no articles in the add tag list.
 You might want to install wp-cache to avoid performance issues.
 
