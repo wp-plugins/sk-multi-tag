@@ -4,7 +4,7 @@ Plugin Name: Sk Multi Tag
 Plugin URI: http://www.skipstorm.org/2010/07/sk-multi-tag-v-1-0-tag-multipli-su-wordpress
 Description: This plugin adds a tag cloud widget where you can select multiple tags at once. Check the plugin webpage for customization.
 Author: Skipstorm
-Version: 1.0.1
+Version: 1.0.2
 Author URI: http://www.skipstorm.org/
 */
 
@@ -195,12 +195,8 @@ class SKMultiTag{
         return (!empty(self::$admin->options['clouds'][$cloud]) && is_array(self::$admin->options['clouds'][$cloud]))? array_merge($defaults, self::$admin->options['clouds'][$cloud]) : $default;
     }
 
-    public static function selectedTags(){
-        @$selectedTags = $wp_query->query_vars['tag'];
-    }
-
     /**
-     * In modo da avere i dati disponibili in ogni posizione del template è meglio se questa parte
+     * In modo da avere i dati disponibili in ogni posizione del template ï¿½ meglio se questa parte
      * viene fatta automaticamente e il modulo richiede semplicemente le liste add e remove
      * 
      * @global <type> $wp_query
@@ -242,11 +238,11 @@ class SKMultiTag{
 				$delTags = array();
 
 
-                                 //* Per ogni tag, se è presente nella lista dei tag selezionati
+                                 //* Per ogni tag, se ï¿½ presente nella lista dei tag selezionati
                                  //* viene inserito nella lista di rimozione
 				foreach ( $tags as $key => $tag ) {
 					foreach($selectedTagsArray as $k => $v){
-							if($v == $tag->slug)
+							if($v == urldecode($tag->slug))
 								$selectedTagsDelArray[] = $tag;
 						}
 				}
@@ -255,7 +251,7 @@ class SKMultiTag{
 				foreach ( $selectedTagsDelArray as $key => $tag ) {
 					$arrayForPars = array();
 					foreach($selectedTagsArray as $tr){
-						if($tag->slug != $tr)
+						if(urldecode($tag->slug) != $tr)
 							$arrayForPars[] = $tr;
 					}
 					$selectedTagsDel = implode('+', $arrayForPars);
@@ -269,7 +265,7 @@ class SKMultiTag{
 				}
 				$delTagLinks = self::generate_tag_cloud($delTags, $args);
 			} else {
-				$delTagLinks = '<a href="'.get_option('home').'">'.$selectedTags.'</a>';
+				$delTagLinks = '<a href="'.get_option('home').'">'.urldecode($selectedTags).'</a>';
 			}
 			
 			// Add tags
@@ -304,7 +300,12 @@ class SKMultiTag{
             $sql .= " WHERE tt.taxonomy = 'post_tag' AND p.ID IN ('" . implode("', '", $tPostIds) . "')";
 
             $sql .= " GROUP BY t.slug";
-            return $wpdb->get_col($sql);
+            $slugs =  $wpdb->get_col($sql);
+            $sluglist = array();
+            foreach ($slugs as $sl) {
+                    $sluglist[] =urldecode($sl);
+            }
+            return $sluglist;
         } else {
             return array();
         }
@@ -453,5 +454,49 @@ class SKMultiTag{
 
             return $return;
     }
+
+    /*
+     *
+     *      TEMPLATE FUNCTIONS & UTILITIES
+     *
+     */
+
+    /**
+     * Returns an array containig the selected tags
+     * @global <type> $wp_query
+     * @return array
+     */
+    public static function getSelectedTags(){
+        global $wp_query;
+        @$selectedTags = explode('+', $wp_query->query_vars['tag']);
+        if(empty($selectedTags)) return false;
+        return $selectedTags;
+    }
+    /**
+     * Print the selected tags using a separator
+     * @param <type> $separator
+     */
+    public static function selectedTags($separator = ', '){
+        $t = self::getSelectedTags();
+        echo ($t)? implode($separator, self::getSelectedTags()) : '';
+    }
+    /**
+     * Shouldn't be used
+     * @todo: improve performance
+     */
+    public static function getPostsForSelTags(){
+        $t = self::getSelectedTags();
+        if(!$t) return false;
+        return get_posts(array('tag' => implode('+', $t), 'numberposts' => -1));
+    }
+    /**
+     * Shouldn't be used
+     * @todo: improve performance
+     */
+    public static function postCount(){
+        $p = self::getPostsForSelTags();
+        echo ($p)? count($p) : '';
+    }
+
 }
 ?>

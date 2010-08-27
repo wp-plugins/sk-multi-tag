@@ -16,6 +16,10 @@ Visit the plugin homepage to download the old version if you want to downgrade.
 
 = Update =
 
+1.0.2
+*	Bug fix for utf8 slugs thanks to Alexandros
+*       Bug fix + template functions, check comments on plugin homepage
+
 1.0.1
 *	Bug fix about random order
 
