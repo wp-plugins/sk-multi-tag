@@ -107,7 +107,7 @@ class SKMultiTag{
 
     public static function saveTagCloud(){
         $cssPrefix = self::sanitizeCloudId($_POST['new']['cssPrefix']);
-        
+
         $new['name'] = (!empty($_POST['new']['name']))? $_POST['new']['name'] : 'No Name';
         $new['description'] = (!empty($_POST['new']['description']))? $_POST['new']['description'] : 'No Description';
         $new['cssPrefix'] = self::sanitizeCloudId($_POST['new']['cssPrefix']);
@@ -145,7 +145,7 @@ class SKMultiTag{
              */
             self::$admin->overwriteOptions(self::$admin->options);
         }
-        
+
         if(empty(self::$admin->options['clouds']) || count(self::$admin->options['clouds']) < 1) return 'No tag clouds created yet. Go to "New Tag Cloud" tab and create one.';
 
         $data = array();
@@ -153,7 +153,7 @@ class SKMultiTag{
         foreach(self::$admin->options['clouds'] as $k => $c){
             $data[$k] = array($c['name'], $c['description'], $c['cssPrefix'], $modules[$c['type']]);
         }
-        
+
         return '<fieldset><legend>Your tag cloud styles</legend>'.
         '<form method="post" action="">'.
         '<input name="deleteCloud" type="hidden" value="del">'.
@@ -179,7 +179,7 @@ class SKMultiTag{
         if(!preg_match('/^[a-zA-Z]{1}/', $id)){
             return 'cloud_'.$id;
         }
-        
+
         return $id;
     }
 
@@ -196,9 +196,9 @@ class SKMultiTag{
     }
 
     /**
-     * In modo da avere i dati disponibili in ogni posizione del template � meglio se questa parte
+     * In modo da avere i dati disponibili in ogni posizione del template ï¿½ meglio se questa parte
      * viene fatta automaticamente e il modulo richiede semplicemente le liste add e remove
-     * 
+     *
      * @global <type> $wp_query
      * @global <type> $wpdb
      * @param <type> $args
@@ -225,12 +225,12 @@ class SKMultiTag{
                 foreach($tPosts as $tPost){
                     $tPostIds[] = $tPost->ID;
                 }
-                
+
                 // Retreive slugs
                 $good_slugs = self::tags_getSlugs($tPostIds);
-                
+
 		$tags = get_tags(array_merge( $args, array( 'orderby' => 'count', 'order' => 'DESC' )));
-                
+
 		if ($tags) {
 
 			// Remove tags
@@ -238,7 +238,7 @@ class SKMultiTag{
 				$delTags = array();
 
 
-                                 //* Per ogni tag, se � presente nella lista dei tag selezionati
+                                 //* Per ogni tag, se ï¿½ presente nella lista dei tag selezionati
                                  //* viene inserito nella lista di rimozione
 				foreach ( $tags as $key => $tag ) {
 					foreach($selectedTagsArray as $k => $v){
@@ -256,8 +256,8 @@ class SKMultiTag{
 					}
 					$selectedTagsDel = implode('+', $arrayForPars);
 					$selTag = get_tag_link( $tag->term_id );
-					$selTag = eregi_replace("[/]*$", '', $selTag);
-					$selTag = eregi_replace("$tag->slug$", '', $selTag);
+					$selTag = preg_replace("/(\/)*$/", '', $selTag);
+					$selTag = preg_replace("/($tag->slug)$/", '', $selTag);
 					$delTags[ $key ] = clone $tag;
 					$delTags[ $key ]->link = $selTag.$selectedTagsDel;
 					$delTags[ $key ]->id = $tag->term_id;
@@ -267,14 +267,14 @@ class SKMultiTag{
 			} else {
 				$delTagLinks = '<a href="'.get_option('home').'">'.urldecode($selectedTags).'</a>';
 			}
-			
+
 			// Add tags
 			foreach ( $tags as $key => $tag ) {
 
 				if(in_array($tag->slug, $good_slugs) && !in_array($tag->slug, $selectedTagsArray)){
 					$link = get_tag_link( $tag->term_id );
 
-					$link = eregi_replace("[/]*$", '', $link);
+					$link = preg_replace("/(\/)*$/", '', $link);
 
 					$tags[ $key ]->link = $link.'+'.$selectedTags;
 					$tags[ $key ]->id = $tag->term_id;
@@ -286,7 +286,7 @@ class SKMultiTag{
                         $addTagLinks = '';
                         if(count($tags) > 0)
                             $addTagLinks = self::generate_tag_cloud($tags, $args);
-			
+
 		}
                 return array('add' => $addTagLinks, 'remove' => $delTagLinks);
 	}
@@ -470,6 +470,8 @@ class SKMultiTag{
         global $wp_query;
         @$selectedTags = explode('+', $wp_query->query_vars['tag']);
         if(empty($selectedTags)) return false;
+        for($i = 0; $i < count($selectedTags); $i++)
+            $selectedTags[$i] = urldecode($selectedTags[$i]);
         return $selectedTags;
     }
     /**

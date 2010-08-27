@@ -2,7 +2,7 @@
 Contributors: skipstorm
 Tags: multi tag, tag, wordcloud, tagcloud, widget
 Requires at least: 3.0
-Tested up to: 3.0
+Tested up to: 3.0.1
 Stable tag: trunk
 
 This plugin adds a tag cloud widget where you can select multiple tags at once.
